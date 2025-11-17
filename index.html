@@ -34,20 +34,37 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      padding: clamp(14px, 3vw, 24px) clamp(24px, 6vw, 24px);
       background-color: white;
       color: green;
-      border-radius: 4px;
-      padding: 20px 40px;
+      border-radius: 6px;
+      border: 1px solid green;
       text-align: center;
-      text-transform: uppercase;
       font-family: Arial, Helvetica, sans-serif;
       font-weight: bold;
+      font-size: clamp(14px, 2vw, 24px);
+      animation: infoPulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes infoPulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.08);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
   <div id="info">
-    Fetching Purchases...
+    🎄 Loading Purchases... ⛄️
   </div>
   <canvas id="canvas" width="2000" height="2000"></canvas>
   <button id="toggle-edit" type="button">Enable Edit Mode</button>
