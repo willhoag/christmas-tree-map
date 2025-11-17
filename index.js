@@ -7,8 +7,6 @@ const info = document.getElementById('info')
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
-const editButton = document.getElementById('toggle-edit')
-
 const backgroundImage = new Image()
 
 function drawMap () {
@@ -98,10 +96,10 @@ async function fetchPurchases () {
 }
 
 drawMap()
-fetchPurchases()
+// fetchPurchases()
 
 // Edit mode state and handlers.
-let editMode = true
+let editMode = false
 let draggingItemId = null
 let dragOffset = [0, 0]
 
@@ -151,12 +149,15 @@ function handlePointerUp () {
 }
 
 // Wire up mouse handlers for edit interactions.
-canvas.addEventListener('mousedown', handlePointerDown)
-window.addEventListener('mousemove', handlePointerMove)
-window.addEventListener('mouseup', handlePointerUp)
+const editButton = document.getElementById('toggle-edit')
+if (editButton) {
+  canvas.addEventListener('mousedown', handlePointerDown)
+  window.addEventListener('mousemove', handlePointerMove)
+  window.addEventListener('mouseup', handlePointerUp)
 
-editButton.addEventListener('click', () => {
-  editMode = !editMode
-  editButton.textContent = editMode ? 'Disable Edit Mode' : 'Enable Edit Mode'
-  handlePointerUp()
-})
+  editButton.addEventListener('click', () => {
+    editMode = !editMode
+    editButton.textContent = editMode ? 'Disable Edit Mode' : 'Enable Edit Mode'
+    handlePointerUp()
+  })
+}
