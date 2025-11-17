@@ -17,6 +17,8 @@ function drawMap () {
 }
 
 const ITEM_SIZE = 30
+const WORLD_POSITION = [0, 0]
+const WORLD_SCALE = 1.2
 const ITEM_OUTLINE_WIDTH = Math.max(1, ITEM_SIZE * 0.125)
 
 const drawFns = {
@@ -56,10 +58,24 @@ const drawFns = {
   }
 }
 
+function getWorldPos (x, y) {
+  const [wX, wY] = WORLD_POSITION
+  const worldX = wX + x * WORLD_SCALE
+  const worldY = wY + y * WORLD_SCALE
+  return [worldX, worldY]
+}
+
+function getLocalPos (x, y) {
+  const [wX, wY] = WORLD_POSITION
+  const localX = (x - wX) / WORLD_SCALE
+  const localY = (y - wY) / WORLD_SCALE
+  return [localX, localY]
+}
+
 function drawItems () {
   for (const itemId in items) {
     const item = items[itemId]
-    const [x, y] = item.pos
+    const [x, y] = getWorldPos(...item.pos)
 
     drawFns[item.type](ctx, x, y, item.color)
     drawFns.text(ctx, x, y, itemId)
@@ -115,7 +131,7 @@ function getCanvasCoords (event) {
 function findItemAtPosition (x, y) {
   for (const itemId in items) {
     const item = items[itemId]
-    const [itemX, itemY] = item.pos
+    const [itemX, itemY] = getWorldPos(...item.pos)
     const distance = Math.hypot(x - itemX, y - itemY)
     if (distance <= ITEM_SIZE) {
       return itemId
@@ -127,20 +143,22 @@ function findItemAtPosition (x, y) {
 function handlePointerDown (event) {
   if (!editMode) return
   if (event.button !== 0) return
-  const [x, y] = getCanvasCoords(event)
-  const itemId = findItemAtPosition(x, y)
+  const [canvasX, canvasY] = getCanvasCoords(event)
+  const itemId = findItemAtPosition(canvasX, canvasY)
   if (!itemId) return
   draggingItemId = itemId
+  const [localX, localY] = getLocalPos(canvasX, canvasY)
   const [itemX, itemY] = items[itemId].pos
-  dragOffset = [x - itemX, y - itemY]
+  dragOffset = [localX - itemX, localY - itemY]
   event.preventDefault()
 }
 
 function handlePointerMove (event) {
   if (!draggingItemId) return
-  const [x, y] = getCanvasCoords(event)
+  const [canvasX, canvasY] = getCanvasCoords(event)
+  const [localX, localY] = getLocalPos(canvasX, canvasY)
   const item = items[draggingItemId]
-  item.pos = [x - dragOffset[0], y - dragOffset[1]]
+  item.pos = [localX - dragOffset[0], localY - dragOffset[1]]
   draw()
 }
 
