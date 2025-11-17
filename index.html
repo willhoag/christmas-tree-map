@@ -9,9 +9,19 @@
       width: 100vw;
       height: auto;
     }
+
+    #toggle-edit {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      padding: 8px 12px;
+      font-size: 16px;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
+  <button id="toggle-edit" type="button">Enable Edit Mode</button>
   <div id="info">
     <p>Fetching Purchases...</p>
   </div>
