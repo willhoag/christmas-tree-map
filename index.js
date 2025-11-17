@@ -36,7 +36,7 @@ const drawFns = {
     const squareSize = ITEM_SIZE / 1.4
     ctx.fillRect(x - squareSize, y - squareSize, squareSize * 2, squareSize * 2)
     ctx.lineWidth = ITEM_OUTLINE_WIDTH
-    ctx.strokeStyle = 'blue'
+    ctx.strokeStyle = 'green'
     ctx.strokeRect(x - squareSize, y - squareSize, squareSize * 2, squareSize * 2)
   },
   text: function drawText (ctx, x, y, text) {
@@ -113,7 +113,7 @@ async function fetchPurchases () {
 }
 
 drawMap()
-// fetchPurchases()
+fetchPurchases()
 
 // Edit mode state and handlers.
 let editMode = false
