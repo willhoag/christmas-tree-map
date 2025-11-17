@@ -13,7 +13,6 @@ const backgroundImage = new Image()
 
 function drawMap () {
   backgroundImage.onload = () => {
-    info.style.display = 'none'
     draw()
   }
   backgroundImage.src = imageSrc
@@ -80,7 +79,7 @@ function draw () {
   drawItems()
 }
 
-async function run () {
+async function fetchPurchases () {
   console.log('Fetching purchases...')
 
   const req = await fetch('https://script.google.com/macros/s/AKfycby2pT9VNGn14PXEtgagIgxRND0frnvfRlDiIXf5GsmalNTZaf6y4Fgoz5JAWRHGpEkTxA/exec')
@@ -95,14 +94,14 @@ async function run () {
   }
 
   drawMap()
+  info.style.display = 'none'
 }
 
-// run()
 drawMap()
-
+fetchPurchases()
 
 // Edit mode state and handlers.
-let editMode = false
+let editMode = true
 let draggingItemId = null
 let dragOffset = [0, 0]
 
