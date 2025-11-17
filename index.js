@@ -20,6 +20,7 @@ function drawMap () {
 }
 
 const ITEM_SIZE = 30
+const ITEM_OUTLINE_WIDTH = Math.max(1, ITEM_SIZE * 0.125)
 
 const drawFns = {
   circle: function drawCircle (ctx, x, y, color) {
@@ -27,10 +28,16 @@ const drawFns = {
     ctx.beginPath()
     ctx.arc(x, y, ITEM_SIZE, 0, 2 * Math.PI)
     ctx.fill()
+    ctx.lineWidth = ITEM_OUTLINE_WIDTH
+    ctx.strokeStyle = 'red'
+    ctx.stroke()
   },
   square: function drawSquare (ctx, x, y, color) {
     ctx.fillStyle = color
     ctx.fillRect(x - ITEM_SIZE, y - ITEM_SIZE, ITEM_SIZE * 2, ITEM_SIZE * 2)
+    ctx.lineWidth = ITEM_OUTLINE_WIDTH
+    ctx.strokeStyle = 'blue'
+    ctx.strokeRect(x - ITEM_SIZE, y - ITEM_SIZE, ITEM_SIZE * 2, ITEM_SIZE * 2)
   },
   text: function drawText (ctx, x, y, text) {
     ctx.fillStyle = 'black'
