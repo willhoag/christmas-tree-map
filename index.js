@@ -16,9 +16,9 @@ function drawMap () {
   backgroundImage.src = imageSrc
 }
 
-const ITEM_SIZE = 30
-const WORLD_POSITION = [0, 0]
-const WORLD_SCALE = 1.2
+const ITEM_SIZE = 40
+const WORLD_POSITION = [-350, -420]
+const WORLD_SCALE = 1.6
 const ITEM_OUTLINE_WIDTH = Math.max(1, ITEM_SIZE * 0.125)
 
 const drawFns = {
@@ -33,10 +33,11 @@ const drawFns = {
   },
   square: function drawSquare (ctx, x, y, color) {
     ctx.fillStyle = color
-    ctx.fillRect(x - ITEM_SIZE, y - ITEM_SIZE, ITEM_SIZE * 2, ITEM_SIZE * 2)
+    const squareSize = ITEM_SIZE / 1.4
+    ctx.fillRect(x - squareSize, y - squareSize, squareSize * 2, squareSize * 2)
     ctx.lineWidth = ITEM_OUTLINE_WIDTH
     ctx.strokeStyle = 'blue'
-    ctx.strokeRect(x - ITEM_SIZE, y - ITEM_SIZE, ITEM_SIZE * 2, ITEM_SIZE * 2)
+    ctx.strokeRect(x - squareSize, y - squareSize, squareSize * 2, squareSize * 2)
   },
   text: function drawText (ctx, x, y, text) {
     ctx.fillStyle = 'black'
