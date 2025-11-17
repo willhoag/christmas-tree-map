@@ -19,35 +19,35 @@ function drawMap () {
   backgroundImage.src = imageSrc
 }
 
-drawMap()
-
+const ITEM_SIZE = 30
 
 const drawFns = {
   circle: function drawCircle (ctx, x, y, color) {
     ctx.fillStyle = color
     ctx.beginPath()
-    ctx.arc(x, y, 40, 0, 2 * Math.PI)
+    ctx.arc(x, y, ITEM_SIZE, 0, 2 * Math.PI)
     ctx.fill()
   },
   square: function drawSquare (ctx, x, y, color) {
     ctx.fillStyle = color
-    ctx.fillRect(x - 40, y - 40, 80, 80)
+    ctx.fillRect(x - ITEM_SIZE, y - ITEM_SIZE, ITEM_SIZE * 2, ITEM_SIZE * 2)
   },
   text: function drawText (ctx, x, y, text) {
     ctx.fillStyle = 'black'
-    ctx.font = '40px Arial'
+    ctx.font = `${ITEM_SIZE}px Arial`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillText(text, x, y)
   },
   x: function drawX (ctx, x, y) {
     ctx.strokeStyle = 'red'
-    ctx.lineWidth = 5
+    ctx.lineWidth = Math.max(1, ITEM_SIZE * 0.125)
+    const offset = ITEM_SIZE * 0.625
     ctx.beginPath()
-    ctx.moveTo(x - 25, y - 25)
-    ctx.lineTo(x + 25, y + 25)
-    ctx.moveTo(x + 25, y - 25)
-    ctx.lineTo(x - 25, y + 25)
+    ctx.moveTo(x - offset, y - offset)
+    ctx.lineTo(x + offset, y + offset)
+    ctx.moveTo(x + offset, y - offset)
+    ctx.lineTo(x - offset, y + offset)
     ctx.stroke()
   }
 }
@@ -81,7 +81,7 @@ async function run () {
 
   console.log('purchases', purchaseIds)
 
-  for (const purchaseId in purchaseIds) {
+  for (const purchaseId of purchaseIds) {
     if (items[purchaseId]) {
       items[purchaseId].purchased = true
     }
@@ -91,6 +91,8 @@ async function run () {
 }
 
 // run()
+drawMap()
+
 
 // Edit mode state and handlers.
 let editMode = false
@@ -109,12 +111,10 @@ function getCanvasCoords (event) {
 function findItemAtPosition (x, y) {
   for (const itemId in items) {
     const item = items[itemId]
-    if (item.type === 'circle') {
-      const [itemX, itemY] = item.pos
-      const distance = Math.hypot(x - itemX, y - itemY)
-      if (distance <= 40) {
-        return itemId
-      }
+    const [itemX, itemY] = item.pos
+    const distance = Math.hypot(x - itemX, y - itemY)
+    if (distance <= ITEM_SIZE) {
+      return itemId
     }
   }
   return null
